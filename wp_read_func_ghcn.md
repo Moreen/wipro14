@@ -5,7 +5,7 @@ wp read func GHCN
 
 **Description**
 
-Functions for reading GHCN data and meta data
+Functions for reading GHCN (version 3) data and meta data
 
 **Usage**
 
@@ -18,16 +18,6 @@ call functions:
 - output data <- readGHCNdata(_path to datafile_)
 - output meta <- readGHCNmeta(_path to datafile_)
 
-
-Only the path of the GHCN data file (.dat) is required as input!
-
-**Example**
-
-datapath <- "/Users/[USER]/ownCloud/RWorkbench/WiPro2014/rawData/ghcnm.v3.2.2.20140506/ghcnm.tavg.v3.2.2.20140506.qca.dat"
-
-- T_avg_meta <- readGHCNmeta(datapath)
-- T_avg_data <- readGHCNdata(datapath)
-
 **Input**
 
 path of data (.dat) file
@@ -36,13 +26,24 @@ path of data (.dat) file
 
 initialize functions
 
+
+**Example**
+
+datapath <- "/Users/[USER]/ownCloud/RWorkbench/WiPro2014/rawData/ghcnm.v3.2.2.20140506/ghcnm.tavg.v3.2.2.20140506.qca.dat"
+
+- T_avg_meta <- readGHCNmeta(datapath)
+- T_avg_data <- readGHCNdata(datapath)
+
+
+
 **Author**
 
 AlK
 
 **Date**
 
-08.05.2014
+MaO 11.08.2014: test and minor change in the documentation header
+AlK 08.05.2014: first version
 
 **TODO**
 
