@@ -29,7 +29,10 @@ initialize functions
 
 **Example**
 
-datapath <- "/Users/[USER]/ownCloud/RWorkbench/WiPro2014/rawData/ghcnm.v3.2.2.20140506/ghcnm.tavg.v3.2.2.20140506.qca.dat"
+
+
+datapath <-  "D:/UNI/SoSe2014/wissProgrammieren/wipro14/rawdata/ghcnm.v3.2.2.20140514/ghcnm.tavg.v3.2.2.20140514.qca.dat"
+
 
 - T_avg_meta <- readGHCNmeta(datapath)
 - T_avg_data <- readGHCNdata(datapath)
