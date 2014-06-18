@@ -36,7 +36,10 @@
 
 
 **Example**
-  
+ 
+ get_metadata(10160670000, STLOC)
+ 
+
   
   
   
@@ -53,8 +56,8 @@
 
 **TODO**
   
-   -spaltename als übergabevariable schreiben
-   - Example
+   -vektor mit mehreren IDs übergeben
+   - Example verfollständigen
  
 
 
@@ -62,7 +65,7 @@
 
 ```{r}
 
-rausziehen <- function(IDstation){
+get_metadata <- function(ID, META){
 
  
 
@@ -83,15 +86,34 @@ GHCNmeta <- readGHCNmeta(datapath)
 finde Reihe zur ID in GHCNmeta
 
 ```{r}
-
-
-
-IDstation <- 10764911000
-META <- as.factor(GRVEG)
+#testinputs:
+# META <- "GRVEG"
+#META <- "NAME"
+#META <- "POPCLS"
+#IDstation <- 10160670000
 
 IDindex <- which(GHCNmeta[,1] == IDstation, arr.ind = TRUE)
 
-OUT <- GHCNmeta$META[IDindex]
+OUT <- "invalid meta name or station ID"
+
+if (META == "ID") {OUT <- GHCNmeta$ID[IDindex]}
+if (META == "LATITUDE") {OUT <- GHCNmeta$LATITUDE[IDindex]}
+if (META ==  "LONGITUDE") {OUT <- GHCNmeta$LONGITUDE[IDindex]}	
+if (META == "STNELEV") {OUT <- GHCNmeta$STNELEV[IDindex]}
+if (META == "NAME") {OUT <- GHCNmeta$NAME[IDindex]}
+if (META == "GRELEV") {OUT <- GHCNmeta$GRELEV[IDindex]}
+if (META == "POPCLS") {OUT <- GHCNmeta$POPCLS[IDindex]}
+if (META == "POPSIZ") {OUT <- GHCNmeta$POPSIZ[IDindex]}
+if (META == "TOPO") {OUT <- GHCNmeta$TOPO[IDindex]}
+if (META == "STVEG") {OUT <- GHCNmeta$STVEG[IDindex]}
+if (META == "STLOC") {OUT <- GHCNmeta$STLOC[IDindex]}
+if (META == "OCNDIS")	{OUT <- GHCNmeta$OCNDIS[IDindex]}
+if (META == "AIRSTN") {OUT <- GHCNmeta$AIRSTN[IDindex]}
+if (META == "TOWNDIS"){OUT <- GHCNmeta$TOWNDIS[IDindex]}
+if (META == "GRVEG") {OUT <- GHCNmeta$GRVEG[IDindex]}            
+if (META == "POPCSS")  {OUT <- GHCNmeta$POPCSS[IDindex]}
+
+
 
 
 
