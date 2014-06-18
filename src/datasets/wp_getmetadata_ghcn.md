@@ -1,7 +1,7 @@
 
 **Name**
   
-  wp_get_metadata_ghcn
+ get_metadata_ghcn
 
 **Description**
   
@@ -18,7 +18,8 @@
 
 **Input**
   
-  ID of station
+  - ID of station and  valid meta variable
+  - e.g.: ID  LATITUDE	LONGITUDE	STNELEV	NAME	GRELEV	POPCLS	POPSIZ	TOPO	           STVEG	STLOC	OCNDIS	AIRSTN	TOWNDIS	GRVEG	POPCSS
   
    - source: wp_read_function_ghcn.md
  datapath
@@ -37,7 +38,7 @@
 
 **Example**
  
- get_metadata(10160670000, STLOC)
+ get_metadata_ghcn(10160670000, STLOC)
  
 
   
@@ -58,32 +59,32 @@
   
    -vektor mit mehreren IDs übergeben
    - Example verfollständigen
- 
+   - übergabe der inputvariablen an funktion
 
 
 ### 1. take meta data  from GHCNmeta
 
 ```{r}
 
-get_metadata <- function(ID, META){
+get_metadata_ghcn <- function(ID, META){
 
  
 
 
 ```
 
-define datapath and call functions readGHCNdata() and readGHCNmeta()
+### 2. define datapath and call function readGHCNmeta()
 
 ```{r}
 
 datapath <- "D:/UNI/SoSe2014/wissProgrammieren/wipro14/rawdata/ghcnm.v3.2.2.20140514/ghcnm.tavg.v3.2.2.20140514.qca.dat"
 
-GHCNdata <- readGHCNdata(datapath)
+#GHCNdata <- readGHCNdata(datapath)
 GHCNmeta <- readGHCNmeta(datapath)
 
 ```
 
-finde Reihe zur ID in GHCNmeta
+### 3. find index of station ID
 
 ```{r}
 #testinputs:
@@ -92,10 +93,18 @@ finde Reihe zur ID in GHCNmeta
 #META <- "POPCLS"
 #IDstation <- 10160670000
 
+
 IDindex <- which(GHCNmeta[,1] == IDstation, arr.ind = TRUE)
+```
 
+### 4. set up invalid message as default output
+
+```{r}
 OUT <- "invalid meta name or station ID"
+```
+### 5. set up wanted output value if variable was put in correctly
 
+```{r}
 if (META == "ID") {OUT <- GHCNmeta$ID[IDindex]}
 if (META == "LATITUDE") {OUT <- GHCNmeta$LATITUDE[IDindex]}
 if (META ==  "LONGITUDE") {OUT <- GHCNmeta$LONGITUDE[IDindex]}	
@@ -113,9 +122,15 @@ if (META == "TOWNDIS"){OUT <- GHCNmeta$TOWNDIS[IDindex]}
 if (META == "GRVEG") {OUT <- GHCNmeta$GRVEG[IDindex]}            
 if (META == "POPCSS")  {OUT <- GHCNmeta$POPCSS[IDindex]}
 
+```
+
+### 6. create output structure with values
 
 
 
+```{r}
+ERGEBNIS<- c(IDstation,OUT)
+```
 
 
 }
