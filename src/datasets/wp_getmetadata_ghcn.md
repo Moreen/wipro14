@@ -112,7 +112,6 @@ if (METAname == "AIRSTN") {OUT <- GHCNmeta$AIRSTN[IDindex]}
 if (METAname == "TOWNDIS"){OUT <- GHCNmeta$TOWNDIS[IDindex]}
 if (METAname == "GRVEG") {OUT <- GHCNmeta$GRVEG[IDindex]}            
 if (METAname == "POPCSS")  {OUT <- GHCNmeta$POPCSS[IDindex]}
-
 ```
 
 ### 4. create output structure with values
