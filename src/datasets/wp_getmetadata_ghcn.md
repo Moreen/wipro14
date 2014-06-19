@@ -9,6 +9,10 @@
 
 **Usage**
   
+
+#GHCNdata <- readGHCNdata(datapath)
+GHCNmeta <- readGHCNmeta(datapath)
+  
   
 - README Link: ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v3/README
 - Data Link: ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v3/
@@ -22,7 +26,9 @@
   - e.g.: ID  LATITUDE	LONGITUDE	STNELEV	NAME	GRELEV	POPCLS	POPSIZ	TOPO	           STVEG	STLOC	OCNDIS	AIRSTN	TOWNDIS	GRVEG	POPCSS
   
    - source: wp_read_function_ghcn.md
- datapath
+
+  datapath <- "D:/UNI/SoSe2014/wissProgrammieren/wipro14/rawdata/ghcnm.v3.2.2.20140514/ghcnm.tavg.v3.2.2.20140514.qca.dat"
+
  function: readGHCNmeta(datapath) and readGHCNmeta(datapath)
  
  GHCNmeta<- readGHCNmeta(datapath)
@@ -33,12 +39,12 @@
 
 **Output**
   
- - ground vegetation of Station
+ - searched meta data of Station
 
 
 **Example**
  
- get_metadata_ghcn(10160670000, STLOC)
+ get_metadata_ghcn(10160670000, GHCNmeta ,STLOC)
  
 
   
@@ -57,84 +63,68 @@
 
 **TODO**
   
-   -vektor mit mehreren IDs übergeben
+   
    - Example verfollständigen
-   - übergabe der inputvariablen an funktion
+   - evtl. optimieren der if-abfragen
 
 
-### 1. take meta data  from GHCNmeta
+### 1.  check arguments
 
 ```{r}
 
-get_metadata_ghcn <- function(ID, META){
+get_metadata_ghcn <- function(ID, GHCNmeta, METAname){
 
  
+checkID <- sum(ID == GHCNmeta$ID)
+name <- names(GHCNmeta)
+checkNAMES <- sum(METAname == name)
+if(sum(checkID,checkNAMES) != 2){stop("invalid meta name or station ID")}
 
 
 ```
 
-### 2. define datapath and call function readGHCNmeta()
+
+
+### 2. find index of station ID
 
 ```{r}
-
-datapath <- "D:/UNI/SoSe2014/wissProgrammieren/wipro14/rawdata/ghcnm.v3.2.2.20140514/ghcnm.tavg.v3.2.2.20140514.qca.dat"
-
-#GHCNdata <- readGHCNdata(datapath)
-GHCNmeta <- readGHCNmeta(datapath)
-
-```
-
-### 3. find index of station ID
-
-```{r}
-#testinputs:
-# META <- "GRVEG"
-#META <- "NAME"
-#META <- "POPCLS"
-#IDstation <- 10160670000
 
 
 IDindex <- which(GHCNmeta[,1] == IDstation, arr.ind = TRUE)
 ```
 
-### 4. set up invalid message as default output
+### 3. set up wanted output value if variable was put in correctly
 
 ```{r}
-OUT <- "invalid meta name or station ID"
-```
-### 5. set up wanted output value if variable was put in correctly
-
-```{r}
-if (META == "ID") {OUT <- GHCNmeta$ID[IDindex]}
-if (META == "LATITUDE") {OUT <- GHCNmeta$LATITUDE[IDindex]}
-if (META ==  "LONGITUDE") {OUT <- GHCNmeta$LONGITUDE[IDindex]}	
-if (META == "STNELEV") {OUT <- GHCNmeta$STNELEV[IDindex]}
-if (META == "NAME") {OUT <- GHCNmeta$NAME[IDindex]}
-if (META == "GRELEV") {OUT <- GHCNmeta$GRELEV[IDindex]}
-if (META == "POPCLS") {OUT <- GHCNmeta$POPCLS[IDindex]}
-if (META == "POPSIZ") {OUT <- GHCNmeta$POPSIZ[IDindex]}
-if (META == "TOPO") {OUT <- GHCNmeta$TOPO[IDindex]}
-if (META == "STVEG") {OUT <- GHCNmeta$STVEG[IDindex]}
-if (META == "STLOC") {OUT <- GHCNmeta$STLOC[IDindex]}
-if (META == "OCNDIS")	{OUT <- GHCNmeta$OCNDIS[IDindex]}
-if (META == "AIRSTN") {OUT <- GHCNmeta$AIRSTN[IDindex]}
-if (META == "TOWNDIS"){OUT <- GHCNmeta$TOWNDIS[IDindex]}
-if (META == "GRVEG") {OUT <- GHCNmeta$GRVEG[IDindex]}            
-if (META == "POPCSS")  {OUT <- GHCNmeta$POPCSS[IDindex]}
+if (METAname == "ID") {OUT <- GHCNmeta$ID[IDindex]}
+if (METAname == "LATITUDE") {OUT <- GHCNmeta$LATITUDE[IDindex]}
+if (METAname ==  "LONGITUDE") {OUT <- GHCNmeta$LONGITUDE[IDindex]}	
+if (METAname == "STNELEV") {OUT <- GHCNmeta$STNELEV[IDindex]}
+if (METAname == "NAME") {OUT <- GHCNmeta$NAME[IDindex]}
+if (METAname == "GRELEV") {OUT <- GHCNmeta$GRELEV[IDindex]}
+if (METAname == "POPCLS") {OUT <- GHCNmeta$POPCLS[IDindex]}
+if (METAname == "POPSIZ") {OUT <- GHCNmeta$POPSIZ[IDindex]}
+if (METAname == "TOPO") {OUT <- GHCNmeta$TOPO[IDindex]}
+if (METAname == "STVEG") {OUT <- GHCNmeta$STVEG[IDindex]}
+if (METAname == "STLOC") {OUT <- GHCNmeta$STLOC[IDindex]}
+if (METAname == "OCNDIS")	{OUT <- GHCNmeta$OCNDIS[IDindex]}
+if (METAname == "AIRSTN") {OUT <- GHCNmeta$AIRSTN[IDindex]}
+if (METAname == "TOWNDIS"){OUT <- GHCNmeta$TOWNDIS[IDindex]}
+if (METAname == "GRVEG") {OUT <- GHCNmeta$GRVEG[IDindex]}            
+if (METAname == "POPCSS")  {OUT <- GHCNmeta$POPCSS[IDindex]}
 
 ```
 
-### 6. create output structure with values
+### 4. create output structure with values
 
 
 
 ```{r}
-ERGEBNIS<- c(IDstation,OUT)
-```
-
+ERGEBNIS<- c(OUT)
 
 }
-}
-
 ```
+
+
+
 
