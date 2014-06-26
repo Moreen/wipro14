@@ -24,8 +24,13 @@ call functions:
 **Input**
 
 ghcn monthly
+function: readGHCNdata(datapath)
+
 - README Link: ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v3/README
 - Data Link: ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/v3/
+
+
+
 
 
 **Output**
@@ -76,7 +81,7 @@ else
     T_yr_mean[n] <- mean(c(data$VALUE1[n],data$VALUE2[n],data$VALUE3[n],data$VALUE4[n],data$VALUE5[n],data$VALUE6[n],
                            data$VALUE7[n],data$VALUE8[n],data$VALUE9[n],data$VALUE10[n],data$VALUE11[n],data$VALUE12[n]), na.rm = F)
     }
-    return(data.frame(T_yr_mean))
+    return(data.frame(data$ID,data$YEAR,T_yr_mean))
   }
 }
 
