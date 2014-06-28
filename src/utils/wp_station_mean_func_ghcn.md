@@ -6,16 +6,23 @@ wp_ghcn_yr_mean
 **Description**
 
 Functions for calc station means of GHCN dataset 
+or clino means of these stations that have complete data for at least n_clino_yr years of clino timespan
+
 
 **Usage**
 
-MEAN <- wp_ghcn_yr_mean(data, SD=TRUE/FALSE)
+MEAN <- wp_ghcn_yr_mean(data, SD=TRUE/FALSE, clino=TRUE/FALSE, n_clino_yr)
+
+Default: - SD = F
+         - clino = F
+         - n_clino_yr = 30
+
 
 call functions:
 
 - output data <- wp_station_mean_func_ghcn(_data_, SD=TRUE/FALSE (optional))
 
-MEAN <- wp_ghcn_yr_mean(data)
+_data_ <- wp_ghcn_yr_mean(data)
 
 call functions:
 
@@ -36,7 +43,7 @@ function: readGHCNdata(datapath)
 **Output**
 
 annual means and their standart deviation or
-annual means for the clino time span (1961 - 1990)
+mean temerature of clino time span (1961 - 1990) with only datasets that have at least complete data of n_clino_yr years of clino time span 
 
 
 **Example**
@@ -45,7 +52,7 @@ T_yr_mean <- wp_ghcn_yr_mean(data)
 
 **Author**
 
-AlK
+AlK, Moh
 
 **Date**
 
@@ -58,12 +65,13 @@ Idee mean_func(orig_dataset, Name="XYZ")
 
 ```{r}
 
-wp_ghcn_yr_mean <- function(data, SD=FALSE, clino=FALSE) {
+wp_ghcn_yr_mean <- function(data, SD=FALSE, clino=FALSE, n_clino_yr=30) {
 
   #achtung: manuell einlesen
-  clino <- T
- data <- GHCNdata
- SD=F
+  #clino <- T
+  #n_clino_yr = 30
+  #data <- GHCNdata
+  #SD=F
  
 
 if(clino){
@@ -105,16 +113,43 @@ if(SD){
     sub <- data.frame(data$ID,data$YEAR,T_yr_mean)
   }
 
- ID <- unique(as.numeric(as.character(sub$data.ID)))
-clino_mean <- matrix(nrow = length(ID))
-    
+
+```
+
+In case option clino is activated -> subset of total matrix and get rid of NAs
+
+```{r}
+
+if(clino){
+
+    ID <- unique(as.numeric(as.character(sub$data.ID)))
+    clino_mean <- matrix(nrow = length(ID), ncol=2)
+    colnames(clino_mean) <- c("stationID", "T_clino_mean") 
+
+    clino_na_free <- subset(sub, !is.na(T_yr_mean), select= c(data.ID, data.YEAR, T_yr_mean))
+
+```
+
+
+cutting out the clino data which has complete data for at least n_clino_yr Years. 
+
+```{r}
+
     for(i in 1:length(ID)){
-      if(length(which(sub$data.ID==ID[i]))==30  & length(!is.na(sub$T_yr_mean[which(sub$data.ID==ID[i])]))==30)
-      {clino_mean[i] <- 3 }
-    }
-
-#T_yr_mean_clino[i] <- cbind(ID[i], mean(subset(which(sub$data.ID==ID[i])
-
+      
+temp <- clino_na_free[which(clino_na_free$data.ID == ID[i],arr.ind = TRUE),]
+if (length(temp$data.ID)>=n_clino_yr){ 
+  
+  clino_mean[i,1] <- ID[i]
+  clino_mean[i,2] <- sum(temp$T_yr_mean)/n_clino_yr
+  }
+}
+clino_mean_complete_data<- subset(clino_mean, !is.na(clino_mean[,1]))
+      
+      }
+      
+     
+return(clino_mean_complete_data)
 
 }
 
