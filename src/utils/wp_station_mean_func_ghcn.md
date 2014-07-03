@@ -141,7 +141,7 @@ temp <- clino_na_free[which(clino_na_free$data.ID == ID[i],arr.ind = TRUE),]
 if (length(temp$data.ID)>=n_clino_yr){ 
   
   clino_mean[i,1] <- ID[i]
-  clino_mean[i,2] <- sum(temp$T_yr_mean)/n_clino_yr
+  clino_mean[i,2] <- sum(temp$T_yr_mean)/length(temp$T_yr_mean)
   }
 }
 clino_mean_complete_data<- subset(clino_mean, !is.na(clino_mean[,1]))
